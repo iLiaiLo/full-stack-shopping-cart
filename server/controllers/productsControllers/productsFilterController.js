@@ -1,8 +1,8 @@
 import Products from "../../models/productModel.js";
 
-export const productFilterController = async (req, res) => {
+export const productsFilterController = async (req, res) => {
   try {
-    const { title, category } = req.body;
+    const { title, category } = req.query;
 
     const query = { $or: [] };
     if (!title && !category) {
@@ -16,7 +16,7 @@ export const productFilterController = async (req, res) => {
     }
 
     if (category) {
-      query.$or.push({ category: { $regex: `^${category}$`, $options: "i" } });
+      query.$or.push({ category: { $regex: category, $options: "i" } });
     }
 
     const filteredData = await Products.find(query);
